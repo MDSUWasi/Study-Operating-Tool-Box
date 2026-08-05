@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Neural Writer - Distraction-free focus editor with Markdown support">
+    <title>Neural Writer | Focus Editor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app" class="app-wrapper">
+
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">✍️</span>
+                    <h1>Neural Writer</h1>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Notes</h3>
+                <button id="new-note-btn" class="primary-btn new-note-btn">
+                    <span>+</span><span>New Note</span>
+                </button>
+            </div>
+
+            <div id="note-list" class="note-list glass-panel-inner">
+                <!-- Notes injected by JS -->
+            </div>
+
+            <div class="sidebar-stats glass-panel-inner">
+                <h3>Session</h3>
+                <div class="stat-row"><span>📝 Notes:</span><span id="note-count">0</span></div>
+                <div class="stat-row"><span>⏱️ Focus Time:</span><span id="total-focus">0m</span></div>
+                <div class="stat-row"><span>📊 Words:</span><span id="word-count">0</span></div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button id="theme-toggle" class="icon-btn" title="Theme"><span>🌙</span></button>
+                <button id="export-btn" class="icon-btn" title="Export"><span>📤</span></button>
+                <button id="import-btn" class="icon-btn" title="Import"><span>📥</span></button>
+                <input type="file" id="import-file" accept=".json" style="display:none">
+            </div>
+        </aside>
+
+        <!-- Main Editor -->
+        <main class="main-content">
+            <header class="main-header glass-panel">
+                <input type="text" id="note-title" class="title-input" placeholder="Untitled Note">
+                <div class="header-actions">
+                    <span id="save-status" class="save-status">Saved</span>
+                    <span id="word-count-header" class="word-count">0 words</span>
+                    <button id="pdf-btn" class="secondary-btn" title="Save as PDF">📄 PDF</button>
+                    <button id="delete-note-btn" class="danger-btn hidden">Delete</button>
+                </div>
+            </header>
+
+            <!-- Editor Toolbar -->
+            <div class="editor-toolbar glass-panel">
+                <div class="toolbar-group">
+                    <span class="toolbar-hint">Markdown supported</span>
+                </div>
+                <div class="toolbar-group">
+                    <button class="mode-btn active" data-mode="write">✏️ Write</button>
+                    <button class="mode-btn" data-mode="preview">👁️ Preview</button>
+                    <button class="mode-btn" data-mode="split">⇄ Split</button>
+                </div>
+            </div>
+
+            <!-- Focus Timer -->
+            <div class="focus-timer glass-panel">
+                <div class="timer-display">
+                    <span id="timer-label" class="timer-label">FOCUS</span>
+                    <span id="timer-time" class="timer-time">25:00</span>
+                </div>
+                <div class="timer-controls">
+                    <button id="timer-start" class="primary-btn timer-btn">▶ Start</button>
+                    <button id="timer-reset" class="secondary-btn timer-btn">↺ Reset</button>
+                    <select id="timer-duration" class="timer-select">
+                        <option value="25">25 min</option>
+                        <option value="50">50 min</option>
+                        <option value="15">15 min</option>
+                        <option value="10">10 min</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Editor + Preview -->
+            <section class="editor-section glass-panel">
+                <textarea id="editor" class="editor" placeholder="Start writing your thoughts here... (Markdown supported)"></textarea>
+                <div id="preview" class="markdown-preview hidden"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Theme Menu -->
+    <div id="theme-menu" class="theme-menu hidden">
+        <button data-theme="normal">☀️ Normal</button>
+        <button data-theme="dark">🌙 Dark</button>
+        <button data-theme="light">✨ Light</button>
+        <button data-theme="glass">💎 Glass</button>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="main.js"></script>
+</body>
+</html>

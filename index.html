@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Tool-Box</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="loading">
+    <div id="boot-screen">
+        <div class="boot-content">
+            <div class="loader-ring"></div>
+            <h2 class="neon-text">INITIALIZING....</h2>
+            <div class="terminal-log">
+                > Loading kernel...<br>
+                > Mounting virtual drive....<br>
+                > Tool-Box Ready.
+            </div>
+        </div>
+    </div>
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
+    <div class="desktop-layer">
+        
+        <header class="status-bar glass-panel">
+            <div class="sys-left">
+                <span class="logo-symbol"></span>
+                <span class="os-name">Study Tool-Box <span class="version">v10.0.0</span></span>
+            </div>
+
+            <div class="sys-right">
+                <div class="clock-widget glass-small" id="clock-display">00:00:00</div>
+                <a href="apps/profile/index.html" target="_self" class="user-profile-btn glass-small">
+                    <img src="assets/Profile.png" alt="User" class="mini-avatar">
+                </a>
+            </div>
+        </header>
+        <main class="launcher-grid">
+            <a href="apps/calendar/index.html" target="_self" class="app-card glass-panel">
+                <div class="card-icon-wrapper">
+                    <div class="icon-bg glow-blue"></div>
+                    <img src="assets/Date.png" style="width: 60%; height: auto;" alt="Calendar Icon" class="card-icon">
+                </div>
+                <div class="card-info">
+                    <h3>Was-Calendar</h3>
+                    <p>Calendar & Time Mapping</p>
+                </div>
+                <div class="card-status">Ready</div>
+            </a>
+            <a href="apps/todolist/index.html" target="_self" class="app-card glass-panel">
+                <div class="card-icon-wrapper">
+                    <div class="icon-bg glow-purple"></div>
+                    <img src="assets/task.svg" style="width: 60%; height: auto;" alt="To-Do" class="card-icon">
+                </div>
+                <div class="card-info">
+                    <h3>Was-To-Do List</h3>
+                    <p>Objective Tracker</p>
+                </div>
+                <div class="card-status">Pending</div>
+            </a>
+            <a href="apps/writer/index.html" target="_self" class="app-card glass-panel">
+                <div class="card-icon-wrapper">
+                    <div class="icon-bg glow-green"></div>
+                    <img src="assets/Note.png" style="width: 60%; height: auto;" alt="Writer Icon" class="card-icon">
+                </div>
+                <div class="card-info">
+                    <h3>Was-Writer</h3>
+                    <p>Focus & Documentation</p>
+                </div>
+                <div class="card-status">Standby</div>
+            </a>
+            <a href="apps/stats/index.html" target="_self" class="app-card glass-panel">
+                <div class="card-icon-wrapper">
+                    <div class="icon-bg glow-orange"></div>
+                    <img src="assets/Intelligence.png" style="width: 60%; height: auto;" alt="Stats Icon" class="card-icon">
+                </div>
+                <div class="card-info">
+                    <h3>Analytics</h3>
+                    <p>Performance Metrics</p>
+                </div>
+                <div class="card-status">Offline</div>
+            </a>
+            <a href="apps/settings/index.html" target="_self" class="app-card glass-panel">
+                <div class="card-icon-wrapper">
+                    <div class="icon-bg glow-cyan"></div>
+                    <img src="assets/System.png" style="width: 60%; height: auto;" alt="Settings Icon" class="card-icon">
+                </div>
+                <div class="card-info">
+                    <h3>System</h3>
+                    <p>Configuration & Data</p>
+                </div>
+                <div class="card-status">Active</div>
+            </a>
+
+        </main>
+    </div>
+    <script>
+        const clock = document.getElementById('clock-display');
+        setInterval(() => {
+            if(clock) clock.innerText = new Date().toLocaleTimeString();
+        }, 1000);
+        setTimeout(() => {
+            document.body.classList.remove('loading');
+            document.body.classList.add('loaded');
+        }, 2500);
+    </script>
+</body>
+</html>
