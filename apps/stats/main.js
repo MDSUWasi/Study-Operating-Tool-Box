@@ -1,42 +1,32 @@
-/**
- * ANALYTICS - Study performance dashboard
- * Aggregates data from Calendar, Tasks, and Writer apps via localStorage
- * Pure Vanilla JavaScript (no external chart libraries)
- */
-
-// --- 1. Data Aggregation from other apps ---
 class DataService {
     constructor() {
         this.range = 'week';
         this.module = 'all';
     }
 
-    // Read events from PowerCalendar
     getEvents() {
         try {
-            return JSON.parse(localStorage.getItem('powercalendar_events')) || [];
+            return JSON.parse(localStorage.getItem('wascalendar_events')) || [];
         } catch { return []; }
     }
 
-    // Read tasks from FocusFlow
     getTasks() {
         try {
-            return JSON.parse(localStorage.getItem('focusflow_tasks')) || [];
+            return JSON.parse(localStorage.getItem('was-to-do-list_tasks')) || [];
         } catch { return []; }
     }
 
-    // Read notes from Neural Writer
+
     getNotes() {
         try {
-            return JSON.parse(localStorage.getItem('neuralwriter_notes')) || [];
+            return JSON.parse(localStorage.getItem('waswriter_notes')) || [];
         } catch { return []; }
     }
 
     getFocusTime() {
-        return parseInt(localStorage.getItem('neuralwriter_focus_total')) || 0;
+        return parseInt(localStorage.getItem('waswriter_focus_total')) || 0;
     }
 
-    // Filter by date range
     inRange(dateStr) {
         const d = new Date(dateStr);
         const now = new Date();
@@ -72,7 +62,6 @@ class DataService {
         return this.getNotes().filter(n => this.inRange(n.createdAt));
     }
 
-    // Get last 7 days activity counts for bar chart
     getWeeklyData() {
         const days = [];
         const today = new Date();
@@ -95,7 +84,6 @@ class DataService {
         return days;
     }
 
-    // Category distribution for donut chart
     getCategoryData() {
         const cats = {};
         const colors = {};
@@ -127,7 +115,6 @@ class DataService {
         return { labels: Object.keys(cats), values: Object.values(cats), colors };
     }
 
-    // Recent activity feed
     getActivity() {
         const items = [];
         this.getEventsInRange().forEach(e => {
@@ -144,7 +131,6 @@ class DataService {
     }
 }
 
-// --- 2. Renderer ---
 class Renderer {
     constructor(service) {
         this.service = service;
@@ -207,7 +193,6 @@ class Renderer {
         const { labels, values, colors } = this.service.getCategoryData();
         const total = values.reduce((a, b) => a + b, 0);
 
-        // Clear previous center
         this.donutChart.querySelector('.donut-center')?.remove();
 
         if (total === 0) {
@@ -276,14 +261,11 @@ class Renderer {
     }
 }
 
-// --- 3. Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
     const service = new DataService();
     const renderer = new Renderer(service);
     const theme = localStorage.getItem('stats_theme') || 'glass';
     document.body.className = `theme-${theme}`;
-
-    // Range nav
     document.querySelectorAll('.nav-item').forEach(btn => btn.onclick = () => {
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -291,7 +273,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderer.render();
     });
 
-    // Module filter
     document.querySelectorAll('.category-btn').forEach(btn => btn.onclick = () => {
         document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -299,7 +280,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderer.render();
     });
 
-    // Theme
     const themeToggle = document.getElementById('theme-toggle');
     const themeMenu = document.getElementById('theme-menu');
     themeToggle.onclick = (e) => { e.stopPropagation(); themeMenu.classList.toggle('hidden'); };
@@ -310,7 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderer.showToast(`Theme: ${btn.textContent.split(' ')[1]}`, 'success');
     });
 
-    // Refresh
     document.getElementById('refresh-btn').onclick = () => {
         renderer.render();
         renderer.showToast('Data refreshed', 'success');
