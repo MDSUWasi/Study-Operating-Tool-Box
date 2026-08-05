@@ -1,9 +1,3 @@
-/**
- * FOCUSFLOW - Modern To-Do List
- * Pure JavaScript
- */
-
-// --- 1. Data Models ---
 class Task {
     constructor(data) {
         this.id = data.id || `task_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -22,7 +16,6 @@ class Task {
     static fromJSON(json) { return new Task(json); }
 }
 
-// --- 2. State Management ---
 class Store {
     constructor() {
         this.state = {
@@ -138,7 +131,6 @@ class Store {
     }
 }
 
-// --- 3. UI Renderer ---
 class Renderer {
     constructor(store) {
         this.store = store;
@@ -333,13 +325,11 @@ class Renderer {
     }
 }
 
-// --- 4. Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
     const store = new Store();
     const renderer = new Renderer(store);
     store.subscribe(() => renderer.render());
 
-    // Filters
     document.querySelectorAll('.nav-item').forEach(btn => btn.onclick = () => {
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -352,7 +342,6 @@ document.addEventListener('DOMContentLoaded', () => {
         store.setState({ category: btn.dataset.category });
     });
 
-    // Views
     document.querySelectorAll('.view-btn').forEach(btn => btn.onclick = () => {
         document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -361,15 +350,12 @@ document.addEventListener('DOMContentLoaded', () => {
         renderer.render();
     });
 
-    // Search & Sort
     document.getElementById('search-input').oninput = (e) => store.setState({ searchQuery: e.target.value });
     document.getElementById('sort-select').onchange = (e) => store.setState({ sort: e.target.value });
 
-    // Buttons
     document.getElementById('add-task-btn').onclick = () => renderer.openAdd();
     document.getElementById('empty-add-btn').onclick = () => renderer.openAdd();
 
-    // Theme
     const themeToggle = document.getElementById('theme-toggle');
     const themeMenu = document.getElementById('theme-menu');
     themeToggle.onclick = (e) => { e.stopPropagation(); themeMenu.classList.toggle('hidden'); };
@@ -378,8 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
         store.setTheme(btn.dataset.theme);
         renderer.showToast(`Theme: ${btn.textContent.split(' ')[1]}`, 'success');
     });
-
-    // Modal
+    
     const modal = document.getElementById('task-modal');
     document.getElementById('modal-close').onclick = () => modal.close();
     document.getElementById('cancel-btn').onclick = () => modal.close();
