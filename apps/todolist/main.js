@@ -19,8 +19,8 @@ class Task {
 class Store {
     constructor() {
         this.state = {
-            tasks: JSON.parse(localStorage.getItem('focusflow_tasks')) || [],
-            theme: localStorage.getItem('focusflow_theme') || 'glass',
+            tasks: JSON.parse(localStorage.getItem('was-to-do-list_tasks')) || [],
+            theme: localStorage.getItem('was-to-do-list_theme') || 'glass',
             filter: 'all',
             category: 'all',
             sort: 'created',
@@ -49,7 +49,7 @@ class Store {
 
     setTheme(theme) {
         this.state.theme = theme;
-        localStorage.setItem('focusflow_theme', theme);
+        localStorage.setItem('was-to-do-list_theme', theme);
         document.body.className = `theme-${theme}`;
         this.notify();
     }
@@ -88,7 +88,7 @@ class Store {
     }
 
     save() {
-        localStorage.setItem('focusflow_tasks', JSON.stringify(this.state.tasks.map(t => t.toJSON())));
+        localStorage.setItem('was-to-do-list_tasks', JSON.stringify(this.state.tasks.map(t => t.toJSON())));
     }
 
     getFilteredTasks() {
@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
         store.setTheme(btn.dataset.theme);
         renderer.showToast(`Theme: ${btn.textContent.split(' ')[1]}`, 'success');
     });
-    
+
     const modal = document.getElementById('task-modal');
     document.getElementById('modal-close').onclick = () => modal.close();
     document.getElementById('cancel-btn').onclick = () => modal.close();
@@ -402,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('export-btn').onclick = () => {
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(store.state.tasks));
         const a = document.createElement('a');
-        a.href = dataStr; a.download = "focusflow_backup.json";
+        a.href = dataStr; a.download = "was-to-do-list_backup.json";
         document.body.appendChild(a); a.click(); a.remove();
         renderer.showToast('Exported', 'success');
     };
