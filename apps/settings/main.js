@@ -1,9 +1,3 @@
-/**
- * SYSTEM / SETTINGS - Configuration & Data Archive
- * Pure Vanilla JavaScript
- */
-
-// Storage keys used across the system
 const STORAGE_KEYS = {
     calendarEvents: 'powercalendar_events',
     calendarTheme: 'powercalendar_theme',
@@ -32,8 +26,6 @@ this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
         document.getElementById('toast-container').appendChild(div);
         setTimeout(() => div.remove(), 3000);
     }
-
-    // --- Appearance ---
     initAccentPicker() {
         const container = document.getElementById('accent-options');
         container.innerHTML = '';
@@ -90,8 +82,6 @@ this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
             this.showToast('System name saved', 'success');
         };
     }
-
-    // --- Data Archive ---
     gatherAllData() {
         const data = {};
         Object.values(STORAGE_KEYS).forEach(key => {
@@ -154,7 +144,6 @@ this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
         this.initAppearance();
     }
 
-    // --- Storage ---
     renderStorage() {
         const list = document.getElementById('storage-list');
         const totalEl = document.getElementById('storage-total');
@@ -213,7 +202,6 @@ this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
         return `${(bytes / 1024).toFixed(1)} KB`;
     }
 
-    // --- Navigation ---
     initNavigation() {
         document.querySelectorAll('.nav-item').forEach(btn => btn.onclick = () => {
             document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
@@ -233,7 +221,6 @@ this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
     }
 }
 
-// --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
     const app = new SettingsApp();
     document.body.className = `theme-${app.appTheme}`;
@@ -241,7 +228,6 @@ document.addEventListener('DOMContentLoaded', () => {
     app.initAppearance();
     app.renderStorage();
 
-    // Theme toggle
     const themeToggle = document.getElementById('theme-toggle');
     const themeMenu = document.getElementById('theme-menu');
     themeToggle.onclick = (e) => { e.stopPropagation(); themeMenu.classList.toggle('hidden'); };
@@ -253,7 +239,6 @@ document.addEventListener('DOMContentLoaded', () => {
         app.showToast(`Theme: ${btn.textContent.split(' ')[1]}`, 'success');
     });
 
-    // Archive actions
     document.getElementById('export-all-btn').onclick = () => app.exportAll();
     document.getElementById('import-all-btn').onclick = () => document.getElementById('import-all-file').click();
     document.getElementById('import-all-file').onchange = (e) => {

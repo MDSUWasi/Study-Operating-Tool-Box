@@ -5,7 +5,7 @@ class Note {
         this.content = data.content || '';
         this.createdAt = data.createdAt || new Date().toISOString();
         this.updatedAt = new Date().toISOString();
-        this.focusTime = data.focusTime || 0; // seconds spent while this note active
+        this.focusTime = data.focusTime || 0;
     }
     toJSON() { return { ...this }; }
     get wordCount() { return this.content.trim() ? this.content.trim().split(/\s+/).length : 0; }

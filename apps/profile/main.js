@@ -1,8 +1,3 @@
-/**
- * PROFILE / IDENTITY - Personal workspace customization
- * Pure Vanilla JavaScript
- */
-
 const BANNER_COLORS = [
     ['#8b5cf6', '#ec4899', '#00f2ff'],
     ['#00ff88', '#00ccff', '#7000ff'],
@@ -190,7 +185,6 @@ accent: localStorage.getItem('profile_accent') || '#8b5cf6',
     }
 }
 
-// --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
     const app = new ProfileApp();
     document.body.className = `theme-${app.profile.theme}`;
@@ -210,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
         app.showToast('Style saved', 'success');
     };
 
-    // Theme
     const themeToggle = document.getElementById('theme-toggle');
     const themeMenu = document.getElementById('theme-menu');
     themeToggle.onclick = (e) => { e.stopPropagation(); themeMenu.classList.toggle('hidden'); };

@@ -42,7 +42,7 @@ Study Operating System utilizes **Web Storage API (LocalStorage)**.
 
 ### 🛠️ Developer & Build Info
 * **Language:** Vanilla JavaScript (ES6+), HTML5, CSS3.
-* **Version:** 10.0.0
+* **Version:** 1.0.1
 
 ---
 *Developed as all in one study tool box.*

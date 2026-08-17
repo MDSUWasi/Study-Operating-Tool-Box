@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Profile - Personal identity & workspace customization">
-    <title>Profile | Identity</title>
+    <title>Profile</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="app" class="app-wrapper">
-
-        <!-- Banner -->
         <div class="profile-banner" id="profile-banner">
             <div class="banner-overlay"></div>
             <div class="banner-content">
@@ -26,10 +24,7 @@
             </div>
         </div>
 
-        <!-- Main Grid -->
         <main class="profile-main">
-
-            <!-- Identity Form -->
             <section class="profile-card glass-panel">
                 <h2 class="card-title">Identity</h2>
                 <div class="form-group">
@@ -55,7 +50,6 @@
                 <button id="save-profile-btn" class="primary-btn">💾 Save Profile</button>
             </section>
 
-            <!-- Banner Customization -->
             <section class="profile-card glass-panel">
                 <h2 class="card-title">Banner & Style</h2>
                 <div class="form-group">
@@ -73,7 +67,6 @@
                 <button id="save-style-btn" class="primary-btn">🎨 Save Style</button>
             </section>
 
-            <!-- Stats / Achievements -->
             <section class="profile-card glass-panel">
                 <h2 class="card-title">Achievements</h2>
                 <div class="achievements-grid" id="achievements">
@@ -103,7 +96,6 @@
         </main>
     </div>
 
-    <!-- Theme Menu -->
     <div id="theme-menu" class="theme-menu hidden">
         <button data-theme="normal">☀️ Normal</button>
         <button data-theme="dark">🌙 Dark</button>
@@ -111,7 +103,6 @@
         <button data-theme="glass">💎 Glass</button>
     </div>
 
-    <!-- Toast -->
     <div id="toast-container" class="toast-container"></div>
 
     <script src="main.js"></script>

@@ -1,9 +1,3 @@
-/**
- * POWERCALENDAR - FINAL FIXED VERSION
- * Fixes: Save button, Month Grid alignment, Day View Timetable
- */
-
-// --- 1. Data Models ---
 class EventItem {
     constructor(data) {
         this.id = data.id || `evt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -23,12 +17,11 @@ class EventItem {
     static fromJSON(json) { return new EventItem(json); }
 }
 
-// --- 2. State Management ---
 class Store {
     constructor() {
         this.state = {
-            events: JSON.parse(localStorage.getItem('powercalendar_events')) || [],
-            theme: localStorage.getItem('powercalendar_theme') || 'glass',
+            events: JSON.parse(localStorage.getItem('was-calendar_events')) || [],
+            theme: localStorage.getItem('was-calendar_theme') || 'glass',
             currentDate: new Date(),
             view: 'month',
             category: 'all',
@@ -57,7 +50,7 @@ class Store {
 
     setTheme(theme) {
         this.state.theme = theme;
-        localStorage.setItem('powercalendar_theme', theme);
+        localStorage.setItem('was-calendar_theme', theme);
         document.body.className = `theme-${theme}`;
         this.notify();
     }
@@ -92,7 +85,7 @@ class Store {
     }
 
     save() {
-        localStorage.setItem('powercalendar_events', JSON.stringify(this.state.events.map(e => e.toJSON())));
+        localStorage.setItem('was-calendar_events', JSON.stringify(this.state.events.map(e => e.toJSON())));
     }
 
     getFilteredEvents() {
@@ -124,7 +117,6 @@ class Store {
     }
 }
 
-// --- 3. UI Renderer ---
 class Renderer {
     constructor(store) {
         this.store = store;
@@ -136,24 +128,18 @@ class Renderer {
         this.yearGrid = document.getElementById('year-grid');
         this.currentPeriod = document.getElementById('current-period');
         this.emptyState = document.getElementById('empty-state');
-        
-        // Initialize Timetables once
         this.initTimetables();
     }
 
     initTimetables() {
-        // Generate 24h sidebar for Week and Day views
         const hours = [];
         for (let i = 0; i < 24; i++) {
             const time = `${i.toString().padStart(2, '0')}:00`;
             hours.push(`<div class="time-slot">${time}</div>`);
         }
-        
-        // Week Sidebar
+
         const weekSidebar = document.querySelector('.week-grid .time-sidebar');
         if (weekSidebar) weekSidebar.innerHTML = hours.join('');
-        
-        // Day Sidebar
         if (this.dayTimeSidebar) this.dayTimeSidebar.innerHTML = hours.join('');
     }
 
@@ -190,8 +176,6 @@ class Renderer {
         }
     }
 
-    // --- FIXED: Month View (Strict 7-Column Grid) ---
-     // --- FIXED: Month View Logic ---
     renderMonth(date, events) {
         const year = date.getFullYear();
         const month = date.getMonth();
@@ -204,7 +188,6 @@ class Renderer {
         
         this.monthDays.innerHTML = '';
         
-        // 1. Previous Month Padding
         const prevMonthLastDay = new Date(year, month, 0).getDate();
         for (let i = startDayOfWeek - 1; i >= 0; i--) {
             const cell = document.createElement('div');
@@ -213,7 +196,6 @@ class Renderer {
             this.monthDays.appendChild(cell);
         }
         
-        // 2. Current Month Days
         for (let d = 1; d <= lastDayOfMonth.getDate(); d++) {
             const cell = document.createElement('div');
             cell.className = 'day-cell';
@@ -225,7 +207,6 @@ class Renderer {
             
             cell.innerHTML = `<div class="day-number">${d}</div>`;
             
-            // ... (Event logic remains the same) ...
             const dayEvents = events.filter(e => {
                 const evtDate = new Date(e.start);
                 return evtDate.getDate() === d && evtDate.getMonth() === month && evtDate.getFullYear() === year;
@@ -252,11 +233,8 @@ class Renderer {
             this.monthDays.appendChild(cell);
         }
         
-        // 3. Next Month Padding (CRITICAL: Fill to 42)
         const totalCells = startDayOfWeek + lastDayOfMonth.getDate();
-        const remainingCells = 42 - totalCells; // 6 rows * 7 cols = 42
-        
-        // Safety check: if remaining is negative (shouldn't happen), force 0
+        const remainingCells = 42 - totalCells;
         const finalRemaining = Math.max(0, remainingCells);
 
         for (let i = 1; i <= finalRemaining; i++) {
@@ -267,7 +245,6 @@ class Renderer {
         }
     }
 
-    // --- Week View ---
     renderWeek(date, events) {
         const startOfWeek = new Date(date);
         startOfWeek.setDate(date.getDate() - date.getDay());
@@ -319,7 +296,6 @@ class Renderer {
         }
     }
 
-    // --- Day View (With Timetable) ---
     renderDay(date, events) {
         this.currentPeriod.textContent = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
         
@@ -350,7 +326,6 @@ class Renderer {
         });
     }
 
-    // --- Year View ---
     renderYear(date, events) {
         this.currentPeriod.textContent = date.getFullYear();
         this.yearGrid.innerHTML = '';
@@ -382,7 +357,6 @@ class Renderer {
         });
     }
 
-    // --- Modal Logic ---
     openAdd(date = null) {
         this.modal.showModal();
         document.getElementById('modal-title').textContent = 'Add New Event';
@@ -440,10 +414,10 @@ class Renderer {
 
     exportToICS() {
         const events = this.store.state.events;
-        let icsContent = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//PowerCalendar//EN\r\n';
+        let icsContent = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Was-Calendar//EN\r\n';
         events.forEach(evt => {
             icsContent += 'BEGIN:VEVENT\r\n';
-            icsContent += `UID:${evt.id}@powercalendar\r\n`;
+            icsContent += `UID:${evt.id}@was-calendar\r\n`;
             icsContent += `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z\r\n`;
             icsContent += `DTSTART:${new Date(evt.start).toISOString().replace(/[-:]/g, '').split('.')[0]}Z\r\n`;
             icsContent += `DTEND:${new Date(evt.end).toISOString().replace(/[-:]/g, '').split('.')[0]}Z\r\n`;
@@ -458,7 +432,7 @@ class Renderer {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `powercalendar_export_${new Date().toISOString().split('T')[0]}.ics`;
+        a.download = `was-calendar_export_${new Date().toISOString().split('T')[0]}.ics`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -505,27 +479,23 @@ class Renderer {
     }
 }
 
-// --- 4. Initialization (FIXED Event Listeners) ---
 document.addEventListener('DOMContentLoaded', () => {
     const store = new Store();
     const renderer = new Renderer(store);
     store.subscribe(() => renderer.render());
 
-    // View Navigation
     document.querySelectorAll('.nav-item').forEach(btn => btn.onclick = () => {
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         store.setState({ view: btn.dataset.view });
     });
 
-    // Category Filter
     document.querySelectorAll('.category-btn').forEach(btn => btn.onclick = () => {
         document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         store.setState({ category: btn.dataset.category });
     });
 
-    // Date Navigation
     document.getElementById('prev-btn').onclick = () => {
         const date = new Date(store.state.currentDate);
         if (store.state.view === 'month') date.setMonth(date.getMonth() - 1);
@@ -548,14 +518,10 @@ document.addEventListener('DOMContentLoaded', () => {
         store.setState({ currentDate: new Date() });
     };
 
-    // Search
     document.getElementById('search-input').oninput = (e) => store.setState({ searchQuery: e.target.value });
-
-    // Buttons
     document.getElementById('add-event-btn').onclick = () => renderer.openAdd();
     document.getElementById('empty-add-btn').onclick = () => renderer.openAdd();
 
-    // Theme
     const themeToggle = document.getElementById('theme-toggle');
     const themeMenu = document.getElementById('theme-menu');
     themeToggle.onclick = (e) => { e.stopPropagation(); themeMenu.classList.toggle('hidden'); };
@@ -565,7 +531,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderer.showToast(`Theme: ${btn.textContent.split(' ')[1]}`, 'success');
     });
 
-    // Modal Controls
     const modal = document.getElementById('event-modal');
     document.getElementById('modal-close').onclick = () => modal.close();
     document.getElementById('cancel-btn').onclick = () => modal.close();
@@ -584,10 +549,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- FIXED: Form Submission ---
     const form = document.getElementById('event-form');
     form.onsubmit = (e) => {
-        e.preventDefault(); // STOP PAGE RELOAD
+        e.preventDefault();
         
         const id = document.getElementById('event-id').value;
         const data = {
@@ -613,7 +577,6 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.close();
     };
 
-    // Export/Import
     document.getElementById('export-btn').onclick = () => renderer.exportToICS();
     document.getElementById('import-btn').onclick = () => document.getElementById('import-file').click();
     document.getElementById('import-file').onchange = (e) => {

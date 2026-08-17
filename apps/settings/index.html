@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="System - Configuration & Data Archive">
-    <title>System | Configuration & Data</title>
+    <title>System</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="app" class="app-wrapper">
-
-        <!-- Sidebar -->
         <aside class="sidebar glass-panel">
             <div class="sidebar-header">
                 <div class="logo">
@@ -31,11 +29,7 @@
                 <button id="back-btn" class="icon-btn" title="Back to Launcher" onclick="window.location.href='../../index.html'"><span>🏠</span></button>
             </div>
         </aside>
-
-        <!-- Main Content -->
         <main class="main-content">
-
-            <!-- Appearance Section -->
             <section id="section-appearance" class="settings-section active">
                 <h2 class="section-title">Appearance</h2>
                 <div class="setting-card glass-panel">
@@ -68,8 +62,6 @@
                     <button id="save-name-btn" class="primary-btn">Save Name</button>
                 </div>
             </section>
-
-            <!-- Data Archive Section -->
             <section id="section-archive" class="settings-section">
                 <h2 class="section-title">Data Archive</h2>
                 <div class="setting-card glass-panel">
@@ -89,8 +81,6 @@
                     <button id="clear-all-btn" class="danger-btn">🗑️ Clear All Data</button>
                 </div>
             </section>
-
-            <!-- Storage Section -->
             <section id="section-storage" class="settings-section">
                 <h2 class="section-title">Storage</h2>
                 <div class="setting-card glass-panel">
@@ -103,8 +93,6 @@
                     </div>
                 </div>
             </section>
-
-            <!-- About Section -->
             <section id="section-about" class="settings-section">
                 <h2 class="section-title">About</h2>
                 <div class="setting-card glass-panel about-card">
@@ -121,16 +109,12 @@
             </section>
         </main>
     </div>
-
-    <!-- Theme Menu -->
     <div id="theme-menu" class="theme-menu hidden">
         <button data-theme="normal">☀️ Normal</button>
         <button data-theme="dark">🌙 Dark</button>
         <button data-theme="light">✨ Light</button>
         <button data-theme="glass">💎 Glass</button>
     </div>
-
-    <!-- Toast -->
     <div id="toast-container" class="toast-container"></div>
 
     <script src="main.js"></script>
