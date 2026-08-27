@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Neural Writer - Distraction-free focus editor with Markdown support">
+    <meta name="description" content="Was Writer - Distraction-free focus editor with Markdown support and infinite canvas">
     <title>Was Writer | Focus Editor</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="app" class="app-wrapper">
+        <!-- ===== SIDEBAR ===== -->
         <aside class="sidebar glass-panel">
             <div class="sidebar-header">
                 <div class="logo">
@@ -19,9 +20,14 @@
 
             <div class="sidebar-section">
                 <h3>Notes</h3>
-                <button id="new-note-btn" class="primary-btn new-note-btn">
-                    <span>+</span><span>New Note</span>
-                </button>
+                <div class="new-note-group">
+                    <button id="new-note-btn" class="primary-btn new-note-btn">
+                        <span>+</span><span>New Note</span>
+                    </button>
+                    <button id="new-canvas-btn" class="secondary-btn new-canvas-btn">
+                        <span>🎨</span><span>Canvas</span>
+                    </button>
+                </div>
             </div>
 
             <div id="note-list" class="note-list glass-panel-inner">
@@ -30,8 +36,10 @@
             <div class="sidebar-stats glass-panel-inner">
                 <h3>Session</h3>
                 <div class="stat-row"><span>📝 Notes:</span><span id="note-count">0</span></div>
+                <div class="stat-row"><span>🎨 Canvas:</span><span id="canvas-note-count">0</span></div>
                 <div class="stat-row"><span>⏱️ Focus Time:</span><span id="total-focus">0m</span></div>
                 <div class="stat-row"><span>📊 Words:</span><span id="word-count">0</span></div>
+                <div class="stat-row"><span>🖌️ Strokes:</span><span id="stroke-count">0</span></div>
             </div>
 
             <div class="sidebar-footer">
@@ -41,56 +49,135 @@
                 <input type="file" id="import-file" accept=".json" style="display:none">
             </div>
         </aside>
+
+        <!-- ===== MAIN CONTENT ===== -->
         <main class="main-content">
+            <!-- Shared header -->
             <header class="main-header glass-panel">
                 <input type="text" id="note-title" class="title-input" placeholder="Untitled Note">
                 <div class="header-actions">
+                    <span id="note-type-badge" class="note-type-badge">📝 Text</span>
                     <span id="save-status" class="save-status">Saved</span>
                     <span id="word-count-header" class="word-count">0 words</span>
                     <button id="pdf-btn" class="secondary-btn" title="Save as PDF">📄 PDF</button>
+                    <button id="export-canvas-pdf-btn" class="secondary-btn hidden" title="Export Canvas as PDF">💾 Export Canvas</button>
                     <button id="delete-note-btn" class="danger-btn hidden">Delete</button>
                 </div>
             </header>
-            <div class="editor-toolbar glass-panel">
-                <div class="toolbar-group">
-                    <span class="toolbar-hint">Markdown supported</span>
+
+            <!-- ===== TEXT EDITOR VIEW ===== -->
+            <div id="text-editor-view">
+                <div class="editor-toolbar glass-panel">
+                    <div class="toolbar-group">
+                        <span class="toolbar-hint">Markdown supported</span>
+                    </div>
+                    <div class="toolbar-group">
+                        <button class="mode-btn active" data-mode="write">✏️ Write</button>
+                        <button class="mode-btn" data-mode="preview">👁️ Preview</button>
+                        <button class="mode-btn" data-mode="split">⇄ Split</button>
+                    </div>
                 </div>
-                <div class="toolbar-group">
-                    <button class="mode-btn active" data-mode="write">✏️ Write</button>
-                    <button class="mode-btn" data-mode="preview">👁️ Preview</button>
-                    <button class="mode-btn" data-mode="split">⇄ Split</button>
+                <div class="focus-timer glass-panel">
+                    <div class="timer-display">
+                        <span id="timer-label" class="timer-label">FOCUS</span>
+                        <span id="timer-time" class="timer-time">25:00</span>
+                    </div>
+                    <div class="timer-controls">
+                        <button id="timer-start" class="primary-btn timer-btn">▶ Start</button>
+                        <button id="timer-reset" class="secondary-btn timer-btn">↺ Reset</button>
+                        <select id="timer-duration" class="timer-select">
+                            <option value="25">25 min</option>
+                            <option value="50">50 min</option>
+                            <option value="15">15 min</option>
+                            <option value="10">10 min</option>
+                        </select>
+                    </div>
                 </div>
+                <section class="editor-section glass-panel">
+                    <textarea id="editor" class="editor" placeholder="Start writing your thoughts here... (Markdown supported)"></textarea>
+                    <div id="preview" class="markdown-preview hidden"></div>
+                </section>
             </div>
-            <div class="focus-timer glass-panel">
-                <div class="timer-display">
-                    <span id="timer-label" class="timer-label">FOCUS</span>
-                    <span id="timer-time" class="timer-time">25:00</span>
+
+            <!-- ===== CANVAS EDITOR VIEW ===== -->
+            <div id="canvas-editor-view" class="hidden">
+                <!-- Canvas toolbar -->
+                <div class="canvas-toolbar glass-panel">
+                    <div class="toolbar-group">
+                        <button class="tool-btn active" data-tool="pen" title="Pen">✏️ Pen</button>
+                        <button class="tool-btn" data-tool="highlighter" title="Highlighter">🖍️ Highlight</button>
+                        <button class="tool-btn" data-tool="eraser" title="Eraser">🧹 Erase</button>
+                        <button class="tool-btn" data-tool="rectangle" title="Rectangle">⬜ Rect</button>
+                        <button class="tool-btn" data-tool="circle" title="Circle">⭕ Circle</button>
+                        <button class="tool-btn" data-tool="text" title="Text Box">📝 Text</button>
+                    </div>
+                    <div class="toolbar-group">
+                        <button id="undo-btn" class="icon-btn" title="Undo (Ctrl+Z)">↶</button>
+                        <button id="redo-btn" class="icon-btn" title="Redo (Ctrl+Y)">↷</button>
+                    </div>
+                    <div class="toolbar-group">
+                        <button class="color-btn active" data-color="#00f2ff" style="background:#00f2ff" title="Cyan"></button>
+                        <button class="color-btn" data-color="#ff4444" style="background:#ff4444" title="Red"></button>
+                        <button class="color-btn" data-color="#44ff44" style="background:#44ff44" title="Green"></button>
+                        <button class="color-btn" data-color="#ffff44" style="background:#ffff44" title="Yellow"></button>
+                        <button class="color-btn" data-color="#4444ff" style="background:#4444ff" title="Blue"></button>
+                        <button class="color-btn" data-color="#ffffff" style="background:#ffffff" title="White"></button>
+                        <button class="color-btn" data-color="#ff00ff" style="background:#ff00ff" title="Magenta"></button>
+                        <button class="color-btn" data-color="#ff8800" style="background:#ff8800" title="Orange"></button>
+                    </div>
+                    <div class="toolbar-group">
+                        <button id="fit-view-btn" class="secondary-btn" title="Fit to content">👁️ Fit</button>
+                        <button id="import-pdf-btn" class="secondary-btn" title="Import PDF as background">📄 Import PDF</button>
+                        <button id="clear-canvas-btn" class="secondary-btn" title="Clear all strokes">🗑️ Clear</button>
+                        <input type="file" id="pdf-import-file" accept=".pdf,.png,.jpg,.jpeg" style="display:none">
+                    </div>
                 </div>
-                <div class="timer-controls">
-                    <button id="timer-start" class="primary-btn timer-btn">▶ Start</button>
-                    <button id="timer-reset" class="secondary-btn timer-btn">↺ Reset</button>
-                    <select id="timer-duration" class="timer-select">
-                        <option value="25">25 min</option>
-                        <option value="50">50 min</option>
-                        <option value="15">15 min</option>
-                        <option value="10">10 min</option>
-                    </select>
+
+                <!-- Page navigation for multi-page PDFs -->
+                <div class="page-nav-controls glass-panel" id="page-nav-controls" style="display:none;">
+                    <button class="page-nav-btn" id="prev-page-btn" title="Previous page">‹</button>
+                    <span class="page-nav-info" id="page-indicator">1 / 1</span>
+                    <button class="page-nav-btn" id="next-page-btn" title="Next page">›</button>
                 </div>
+
+                <!-- Focus timer (shared with text mode) -->
+                <div class="focus-timer glass-panel">
+                    <div class="timer-display">
+                        <span id="timer-label" class="timer-label">FOCUS</span>
+                        <span id="timer-time" class="timer-time">25:00</span>
+                    </div>
+                    <div class="timer-controls">
+                        <button id="timer-start" class="primary-btn timer-btn">▶ Start</button>
+                        <button id="timer-reset" class="secondary-btn timer-btn">↺ Reset</button>
+                        <select id="timer-duration" class="timer-select">
+                            <option value="25">25 min</option>
+                            <option value="50">50 min</option>
+                            <option value="15">15 min</option>
+                            <option value="10">10 min</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Canvas drawing area -->
+                <section class="canvas-section glass-panel">
+                    <div id="canvas-container" class="canvas-container"></div>
+                </section>
             </div>
-            <section class="editor-section glass-panel">
-                <textarea id="editor" class="editor" placeholder="Start writing your thoughts here... (Markdown supported)"></textarea>
-                <div id="preview" class="markdown-preview hidden"></div>
-            </section>
         </main>
     </div>
+
+    <!-- ===== THEME MENU ===== -->
     <div id="theme-menu" class="theme-menu hidden">
         <button data-theme="normal">☀️ Normal</button>
         <button data-theme="dark">🌙 Dark</button>
         <button data-theme="light">✨ Light</button>
         <button data-theme="glass">💎 Glass</button>
     </div>
+
+    <!-- ===== TOAST CONTAINER ===== -->
     <div id="toast-container" class="toast-container"></div>
 
+    <!-- ===== SCRIPTS ===== -->
     <script src="main.js"></script>
 </body>
 </html>
