@@ -330,6 +330,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderer = new Renderer(store);
     store.subscribe(() => renderer.render());
 
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+    sidebarToggle.onclick = () => {
+        const collapsed = document.getElementById('app').classList.toggle('sidebar-collapsed');
+        sidebarToggle.setAttribute('aria-expanded', String(!collapsed));
+    };
+
     document.querySelectorAll('.nav-item').forEach(btn => btn.onclick = () => {
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');

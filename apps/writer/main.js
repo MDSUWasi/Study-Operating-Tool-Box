@@ -1914,6 +1914,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const timer = new FocusTimer(store, renderer);
     store.subscribe(() => renderer.render());
     timer.updateDisplay();
+
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+    sidebarToggle.onclick = () => {
+        const collapsed = document.getElementById('app').classList.toggle('sidebar-collapsed');
+        sidebarToggle.setAttribute('aria-expanded', String(!collapsed));
+    };
     
     // Canvas engine initialization
     const canvasContainer = document.getElementById('canvas-container');

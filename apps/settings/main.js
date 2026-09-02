@@ -224,6 +224,11 @@ this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
 document.addEventListener('DOMContentLoaded', () => {
     const app = new SettingsApp();
     document.body.className = `theme-${app.appTheme}`;
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+    sidebarToggle.onclick = () => {
+        const collapsed = document.getElementById('app').classList.toggle('sidebar-collapsed');
+        sidebarToggle.setAttribute('aria-expanded', String(!collapsed));
+    };
     app.initNavigation();
     app.initAppearance();
     app.renderStorage();
