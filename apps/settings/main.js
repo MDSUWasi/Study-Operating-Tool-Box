@@ -94,7 +94,7 @@ this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
         data.$meta = {
             exportedAt: new Date().toISOString(),
             app: 'Study Tool-Box',
-            version: '1.0.0'
+            version: 'v1.0.initial'
         };
         return data;
     }

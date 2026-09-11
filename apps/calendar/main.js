@@ -414,7 +414,7 @@ class Renderer {
 
     exportToICS() {
         const events = this.store.state.events;
-        let icsContent = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Was-Calendar//EN\r\n';
+        let icsContent = 'BEGIN:VCALENDAR\r\nVERSION:v1.0.initial\r\nPRODID:-//Was-Calendar//EN\r\n';
         events.forEach(evt => {
             icsContent += 'BEGIN:VEVENT\r\n';
             icsContent += `UID:${evt.id}@was-calendar\r\n`;
