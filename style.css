@@ -105,6 +105,7 @@ body {
 }
 
 .status-bar { 
+    background: #9e8787;
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
@@ -282,7 +283,7 @@ body {
 #boot-screen { 
     position: fixed; 
     inset: 0; 
-    background: #000; 
+    background: #9e8787; 
     z-index: 9999; 
     display: flex; 
     align-items: center; 
