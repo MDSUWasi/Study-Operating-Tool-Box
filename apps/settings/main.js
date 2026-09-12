@@ -6,8 +6,8 @@ const STORAGE_KEYS = {
     notes: 'neuralwriter_notes',
     focusTotal: 'neuralwriter_focus_total',
     writerTheme: 'neuralwriter_theme',
-    settingsAccent: 'studytoolbox_accent',
-    settingsName: 'studytoolbox_name'
+    settingsAccent: 'studyoperatingtoolbox_accent',
+    settingsName: 'studyoperatingtoolbox_name'
 };
 
 const ACCENTS = ['#00f2ff', '#00ff88', '#ffaa00', '#ff5e3a', '#8b5cf6', '#ec4899', '#3b82f6', '#00ccff'];
@@ -15,8 +15,8 @@ const ACCENTS = ['#00f2ff', '#00ff88', '#ffaa00', '#ff5e3a', '#8b5cf6', '#ec4899
 class SettingsApp {
     constructor() {
         this.accent = localStorage.getItem(STORAGE_KEYS.settingsAccent) || '#00f2ff';
-        this.systemName = localStorage.getItem(STORAGE_KEYS.settingsName) || 'Study Tool-Box';
-this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
+        this.systemName = localStorage.getItem(STORAGE_KEYS.settingsName) || 'Study Operating Tool-Box';
+this.appTheme = localStorage.getItem('studyoperatingtoolbox_theme') || 'glass';
     }
 
     showToast(msg, type = 'info') {
@@ -66,7 +66,7 @@ this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
                 document.querySelectorAll('.theme-option').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 this.appTheme = btn.dataset.theme;
-                localStorage.setItem('studytoolbox_theme', this.appTheme);
+                localStorage.setItem('studyoperatingtoolbox_theme', this.appTheme);
                 this.showToast('Default theme set', 'success');
             };
         });
@@ -75,7 +75,7 @@ this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
     initSystemName() {
         document.getElementById('system-name').value = this.systemName;
         document.getElementById('save-name-btn').onclick = () => {
-            const name = document.getElementById('system-name').value.trim() || 'Study Tool-Box';
+            const name = document.getElementById('system-name').value.trim() || 'Study Operating Tool-Box';
             document.getElementById('system-name').value = name;
             localStorage.setItem(STORAGE_KEYS.settingsName, name);
             this.systemName = name;
@@ -93,7 +93,7 @@ this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
         });
         data.$meta = {
             exportedAt: new Date().toISOString(),
-            app: 'Study Tool-Box',
+            app: 'Study Operating Tool-Box',
             version: 'v1.0.initial'
         };
         return data;
@@ -106,7 +106,7 @@ this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `study_toolbox_backup_${new Date().toISOString().split('T')[0]}.json`;
+        a.download = `study_operating_toolbox_backup_${new Date().toISOString().split('T')[0]}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -138,7 +138,7 @@ this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
 
     clearAll() {
         Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
-        localStorage.removeItem('studytoolbox_theme');
+        localStorage.removeItem('studyoperatingtoolbox_theme');
         this.showToast('All data cleared', 'success');
         this.renderStorage();
         this.initAppearance();
@@ -191,8 +191,8 @@ this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
             neuralwriter_notes: 'Writer Notes',
             neuralwriter_focus_total: 'Total Focus Time',
             neuralwriter_theme: 'Writer Theme',
-            studytoolbox_accent: 'Accent Color',
-            studytoolbox_name: 'System Name'
+            studyoperatingtoolbox_accent: 'Accent Color',
+            studyoperatingtoolbox_name: 'System Name'
         };
         return map[key] || key;
     }
@@ -214,7 +214,7 @@ this.appTheme = localStorage.getItem('studytoolbox_theme') || 'glass';
     initAppearance() {
         const savedAccent = localStorage.getItem(STORAGE_KEYS.settingsAccent) || '#00f2ff';
         this.accent = savedAccent;
-        this.systemName = localStorage.getItem(STORAGE_KEYS.settingsName) || 'Study Tool-Box';
+        this.systemName = localStorage.getItem(STORAGE_KEYS.settingsName) || 'Study operating Tool-Box';
         this.initAccentPicker();
         this.initThemeOptions();
         this.initSystemName();
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('#theme-menu button').forEach(btn => btn.onclick = () => {
         document.body.className = `theme-${btn.dataset.theme}`;
         app.appTheme = btn.dataset.theme;
-        localStorage.setItem('studytoolbox_theme', btn.dataset.theme);
+        localStorage.setItem('studyoperatingtoolbox_theme', btn.dataset.theme);
         app.showToast(`Theme: ${btn.textContent.split(' ')[1]}`, 'success');
     });
 
