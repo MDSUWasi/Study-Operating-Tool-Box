@@ -23,13 +23,13 @@ Unlike "Cloud-First" applications, Study Operating Tool-Box is designed to be a 
 3.  **Local Isolation:** Your data never touches a server. It stays in your browser's physical storage on your machine.
 4.  **Open Source Transparency:** Every line of code is local and auditable.
 
-### But here is a catch
-Privacy protection completely changes depending on how user use Study Operating Tool-Box. For example:
+### But here is a catch,
+Privacy protection can get changed depending on how/ where user use Study Operating Tool-Box. For example:
 - 1. **Using the web version:** Study Operating system is complety privacy protected itself but browser's setting can be a issue.
 - 2. **Using source code directly:** Again Study Operating Tool-Box is privacy protected itself but there might be a issue on where user run it.
 -3. **Using the App (Coming soon):** This section will be updated soon. But my intension to the app's privacy protection is still same as before. But there might be a issue depending of Operating System's setting.
 
-In other word Study Operating Tool-Box is privacy protected by itself. But to keep it protected user should check the place where it is running.
+In other word Study Operating Tool-Box is privacy protected by itself. But to keep it protected user should check the place where & how it is running.
 
 ## 💾 Where is my Data Stored?
 
@@ -50,4 +50,6 @@ Study Operating System utilizes **Web Storage API (LocalStorage)**.
 * **Version:** v1.0.initial
 
 ---
-*Developed as all in one study tool box.*
+---
+
+<h3 align"center">Developed as all in one study tool box.</h3>
