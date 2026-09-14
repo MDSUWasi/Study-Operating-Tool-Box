@@ -30,6 +30,7 @@ Privacy protection can get changed depending on how/ where user use Study Operat
 -3. **Using the App (Coming soon):** This section will be updated soon. But my intension to the app's privacy protection is still same as before. But there might be a issue depending of Operating System's setting.
 
 In other word Study Operating Tool-Box is privacy protected by itself. But to keep it protected user should check the place where & how it is running.
+I would recommend be careful on where it is running. Because I have created is as privacy protected tool. But the system where it is running may change the protection level. And The web-version is complete and fully usable but I have released the web version for giving it a try. I haven't added any analytic but there may be analytic present, since it is hosted on a server out side of my control.
 
 ## 💾 Where is my Data Stored?
 
