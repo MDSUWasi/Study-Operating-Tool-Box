@@ -9,7 +9,7 @@
 <body class="loading">
     <div id="boot-screen">
         <div class="boot-content">
-            <div class="loader-ring"></div>
+            <div class="loader-ring">HI</div>
             <h2 class="neon-text">WELCOME</h2>
             <div class="terminal-log">
                 > To Study Operating Tool-Box<br>
@@ -27,7 +27,9 @@
         <header class="status-bar glass-panel">
             <div class="sys-left">
                 <span class="logo-symbol"></span>
-                <span class="os-name">Study Operating Tool-Box <span class="version">v1.0.initial</span></span>
+                <span class="os-name">Study Operating Tool-Box 
+                    <span class="version">v1.0.initial</span>
+                </span>
             </div>
 
             <div class="sys-right">
@@ -45,9 +47,8 @@
                 </div>
                 <div class="card-info">
                     <h3>Was-Calendar</h3>
-                    <p>Calendar & Time Mapping</p>
+                    <p>Calendar</p>
                 </div>
-                <div class="card-status">Ready</div>
             </a>
             <a href="apps/todolist/index.html" target="_self" class="app-card glass-panel">
                 <div class="card-icon-wrapper">
@@ -56,9 +57,8 @@
                 </div>
                 <div class="card-info">
                     <h3>Was-To-Do List</h3>
-                    <p>Objective Tracker</p>
+                    <p>Task Tracker</p>
                 </div>
-                <div class="card-status">Pending</div>
             </a>
             <a href="apps/writer/index.html" target="_self" class="app-card glass-panel">
                 <div class="card-icon-wrapper">
@@ -67,9 +67,8 @@
                 </div>
                 <div class="card-info">
                     <h3>Was-Writer</h3>
-                    <p>Focus & Documentation</p>
+                    <p>Write the notes</p>
                 </div>
-                <div class="card-status">Standby</div>
             </a>
             <a href="apps/analytics/index.html" target="_self" class="app-card glass-panel">
                 <div class="card-icon-wrapper">
@@ -78,9 +77,8 @@
                 </div>
                 <div class="card-info">
                     <h3>Analytics</h3>
-                    <p>Performance Metrics</p>
+                    <p>Performance Meter</p>
                 </div>
-                <div class="card-status">Offline</div>
             </a>
             <a href="apps/settings/index.html" target="_self" class="app-card glass-panel">
                 <div class="card-icon-wrapper">
@@ -88,23 +86,13 @@
                     <img src="assets/System.png" style="width: 60%; height: auto;" alt="Settings Icon" class="card-icon">
                 </div>
                 <div class="card-info">
-                    <h3>System</h3>
-                    <p>Configuration & Data</p>
+                    <h3>Settings</h3>
+                    <p>Set Up</p>
                 </div>
-                <div class="card-status">Active</div>
             </a>
 
         </main>
     </div>
-    <script>
-        const clock = document.getElementById('clock-display');
-        setInterval(() => {
-            if(clock) clock.innerText = new Date().toLocaleTimeString();
-        }, 1000);
-        setTimeout(() => {
-            document.body.classList.remove('loading');
-            document.body.classList.add('loaded');
-        }, 2500);
-    </script>
+    <script src="clock.js"></script>
 </body>
 </html>
