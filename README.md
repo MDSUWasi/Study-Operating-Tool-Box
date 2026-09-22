@@ -31,7 +31,9 @@ Study Operating Tool-Box is designed to be a private vault (Only if no external 
 
 Privacy protection can get changed depending on how/ where user use Study Operating Tool-Box. For example:
 - 1. **Using the web version:** Study Operating system is complety privacy protected itself but browser's setting can be a issue.
+
 - 2. **Using source code directly:** Again Study Operating Tool-Box is privacy protected itself but there might be a issue on where user run it.
+
 -3. **Using the App (Coming soon):** This section will be updated soon. But my intension to the app's privacy protection is still same as before. But there might be a issue depending of Operating System's setting.
 
 In other word Study Operating Tool-Box is privacy protected by itself. But to keep it protected user should check the place where & how it is running.
