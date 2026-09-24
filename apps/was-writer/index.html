@@ -9,7 +9,6 @@
 </head>
 <body>
     <div id="app" class="app-wrapper">
-        <!-- ===== SIDEBAR ===== -->
         <aside class="sidebar glass-panel">
             <div class="sidebar-header">
                 <div class="logo">
@@ -50,9 +49,7 @@
             </div>
         </aside>
 
-        <!-- ===== MAIN CONTENT ===== -->
         <main class="main-content">
-            <!-- Shared header -->
             <header class="main-header glass-panel">
                 <button class="sidebar-toggle" type="button" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
                 <input type="text" id="note-title" class="title-input" placeholder="Untitled Note">
@@ -66,7 +63,6 @@
                 </div>
             </header>
 
-            <!-- ===== TEXT EDITOR VIEW ===== -->
             <div id="text-editor-view">
                 <div class="editor-toolbar glass-panel">
                     <div class="toolbar-group">
@@ -100,9 +96,7 @@
                 </section>
             </div>
 
-            <!-- ===== CANVAS EDITOR VIEW ===== -->
             <div id="canvas-editor-view" class="hidden">
-                <!-- Canvas toolbar -->
                 <div class="canvas-toolbar glass-panel">
                     <div class="toolbar-group">
                         <button class="tool-btn active" data-tool="pen" title="Pen">✏️ Pen</button>
@@ -134,14 +128,12 @@
                     </div>
                 </div>
 
-                <!-- Page navigation for multi-page PDFs -->
                 <div class="page-nav-controls glass-panel" id="page-nav-controls" style="display:none;">
                     <button class="page-nav-btn" id="prev-page-btn" title="Previous page">‹</button>
                     <span class="page-nav-info" id="page-indicator">1 / 1</span>
                     <button class="page-nav-btn" id="next-page-btn" title="Next page">›</button>
                 </div>
 
-                <!-- Focus timer (shared with text mode) -->
                 <div class="focus-timer glass-panel">
                     <div class="timer-display">
                         <span id="timer-label" class="timer-label">FOCUS</span>
@@ -151,15 +143,15 @@
                         <button id="timer-start" class="primary-btn timer-btn">▶ Start</button>
                         <button id="timer-reset" class="secondary-btn timer-btn">↺ Reset</button>
                         <select id="timer-duration" class="timer-select">
+                            <option value="10">10 min</option>
+                            <option value="15">15 min</option>
                             <option value="25">25 min</option>
                             <option value="50">50 min</option>
-                            <option value="15">15 min</option>
-                            <option value="10">10 min</option>
+                            <option value="90">90 min</option>
                         </select>
                     </div>
                 </div>
-
-                <!-- Canvas drawing area -->
+                
                 <section class="canvas-section glass-panel">
                     <div id="canvas-container" class="canvas-container"></div>
                 </section>
@@ -167,7 +159,6 @@
         </main>
     </div>
 
-    <!-- ===== THEME MENU ===== -->
     <div id="theme-menu" class="theme-menu hidden">
         <button data-theme="normal">☀️ Normal</button>
         <button data-theme="dark">🌙 Dark</button>
@@ -175,10 +166,17 @@
         <button data-theme="glass">💎 Glass</button>
     </div>
 
-    <!-- ===== TOAST CONTAINER ===== -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- ===== SCRIPTS ===== -->
-    <script src="main.js"></script>
+    <script src="Note.js"></script>
+        <script src="Stroke.js"></script>
+    <script src="CanvasNote.js"></script>
+        <script src="HistoryManager.js"></script>
+    <script src="MarkdownParser.js"></script>
+        <script src="Store.js"></script>
+    <script src="Renderer.js"></script>
+        <script src="FocusTimer.js"></script>
+    <script src="CanvasEngine.js"></script>
+        <script src="main.js"></script>
 </body>
 </html>
