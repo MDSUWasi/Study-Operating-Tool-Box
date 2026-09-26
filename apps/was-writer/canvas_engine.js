@@ -269,13 +269,14 @@ class CanvasEngine {
     resize() {
         const dpr = window.devicePixelRatio || 1;
         const rect = this.container.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
         
         this.canvas.width = rect.width * dpr;
         this.canvas.height = rect.height * dpr;
         this.canvas.style.width = rect.width + 'px';
         this.canvas.style.height = rect.height + 'px';
         
-        this.ctx.scale(dpr, dpr);
+        this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         this.render();
     }
     
@@ -332,6 +333,22 @@ class CanvasEngine {
     startDrawing(e) {
         const worldPos = this.screenToWorld(e.offsetX, e.offsetY);
         const pressure = e.pressure > 0 ? e.pressure : 0.5;
+
+        if (this.mode === 'text') {
+            const text = prompt('Enter canvas text:');
+            if (text) {
+                this.currentStroke = new Stroke({
+                    type: 'text',
+                    color: this.color,
+                    text,
+                    points: [],
+                    startX: worldPos.x,
+                    startY: worldPos.y
+                });
+                this.finishDrawing();
+            }
+            return;
+        }
         
         this.currentStroke = new Stroke({
             type: this.mode,
@@ -343,7 +360,9 @@ class CanvasEngine {
                 timestamp: new Date().toISOString()
             }],
             startX: worldPos.x,
-            startY: worldPos.y
+            startY: worldPos.y,
+            endX: worldPos.x,
+            endY: worldPos.y
         });
         
         this.isDrawing = true;
@@ -352,6 +371,13 @@ class CanvasEngine {
     continueDrawing(e) {
         const worldPos = this.screenToWorld(e.offsetX, e.offsetY);
         const pressure = e.pressure > 0 ? e.pressure : 0.5;
+
+        if (this.currentStroke.type === 'rectangle' || this.currentStroke.type === 'circle') {
+            this.currentStroke.endX = worldPos.x;
+            this.currentStroke.endY = worldPos.y;
+            this.render();
+            return;
+        }
         
         this.currentStroke.points.push({ 
             x: worldPos.x, 
@@ -364,7 +390,10 @@ class CanvasEngine {
     }
     
     finishDrawing() {
-        if (this.currentStroke && this.currentStroke.points.length > 1) {
+        if (this.currentStroke && (
+            this.currentStroke.points.length > 1 ||
+            ['pen', 'rectangle', 'circle', 'text'].includes(this.currentStroke.type)
+        )) {
             this.store.historyManager.recordChange('add_stroke', { stroke: this.currentStroke });
             this.strokes.push(this.currentStroke);
         }
@@ -493,6 +522,12 @@ class CanvasEngine {
             case 'circle':
                 this.drawShapeStroke(ctx, stroke, isLive);
                 break;
+            case 'text':
+                ctx.fillStyle = stroke.color;
+                ctx.font = '24px sans-serif';
+                ctx.textBaseline = 'top';
+                ctx.fillText(stroke.text || '', stroke.startX, stroke.startY);
+                break;
         }
     }
     
@@ -595,6 +630,7 @@ class CanvasEngine {
             const ry = Math.abs(h) / 2;
             const cx = stroke.startX + w / 2;
             const cy = stroke.startY + h / 2;
+            ctx.beginPath();
             ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
             ctx.stroke();
         }
